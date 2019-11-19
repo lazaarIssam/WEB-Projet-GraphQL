@@ -5,8 +5,6 @@ const { buildSchema } = require('graphql');
 
 const app = express();
 
-const annonces = [];
-
 app.use(bodyParser.json());
 
 app.use('/api',
@@ -44,20 +42,11 @@ app.use('/api',
     `),
     rootValue: {
         annonces: () => {
-        return annonces;
+        return ['Romantic Cooking', 'Sailing', 'All-Night Coding'];
       },
       createAnnonce: (args) => {
-        const annonce = {
-            _id: Math.random().toString(),
-            title: args.annonceInput.title,
-            typedebien: args.annonceInput.typedebien,
-            statusPub: args.annonceInput.statusPub,
-            prix: +args.annonceInput.prix,
-            date: args.annonceInput.date,
-            description: args.annonceInput.description
-        }
-        annonces.push(annonce);
-        return annonce;
+        const eventName = args.name;
+        return eventName;
       }
     },
     graphiql: true

@@ -5,8 +5,6 @@ const { buildSchema } = require('graphql');
 
 const app = express();
 
-const annonces = [];
-
 app.use(bodyParser.json());
 
 app.use('/api',
@@ -15,27 +13,18 @@ app.use('/api',
         type Annonce {
             _id: ID!
             title: String!
+            description: String!
             typedebien: String!
             statusPub: String!
             prix: Float!
             date: String!
-            description: String!
-        }
-
-        input AnnonceInput {
-            title: String!
-            typedebien: String!
-            statusPub: String!
-            prix: Float!
-            date: String!
-            description: String!
         }
 
         type RootQuery {
-            annonces: [Annonce!]!
+            annonces: [String!]!
         }
         type RootMutation {
-            createAnnonce(annonceInput: AnnonceInput): Annonce
+            createAnnonce(name: String): String
         }
         schema {
             query: RootQuery
@@ -44,20 +33,11 @@ app.use('/api',
     `),
     rootValue: {
         annonces: () => {
-        return annonces;
+        return ['Romantic Cooking', 'Sailing', 'All-Night Coding'];
       },
       createAnnonce: (args) => {
-        const annonce = {
-            _id: Math.random().toString(),
-            title: args.annonceInput.title,
-            typedebien: args.annonceInput.typedebien,
-            statusPub: args.annonceInput.statusPub,
-            prix: +args.annonceInput.prix,
-            date: args.annonceInput.date,
-            description: args.annonceInput.description
-        }
-        annonces.push(annonce);
-        return annonce;
+        const eventName = args.name;
+        return eventName;
       }
     },
     graphiql: true

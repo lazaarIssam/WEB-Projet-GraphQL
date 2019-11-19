@@ -56,6 +56,7 @@ app.use('/api',
             date: args.annonceInput.date,
             description: args.annonceInput.description
         }
+        console.log(args);
         annonces.push(annonce);
         return annonce;
       }

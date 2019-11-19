@@ -49,15 +49,14 @@ app.use('/api',
       createAnnonce: (args) => {
         const annonce = {
             _id: Math.random().toString(),
-            title: args.annonceInput.title,
-            typedebien: args.annonceInput.typedebien,
-            statusPub: args.annonceInput.statusPub,
-            prix: +args.annonceInput.prix,
-            date: args.annonceInput.date,
-            description: args.annonceInput.description
+            title: args.title,
+            typedebien: args.typedebien,
+            statusPub: args.statusPub,
+            prix: +args.prix,
+            date: args.date,
+            description: args.description
         }
         annonces.push(annonce);
-        return annonce;
       }
     },
     graphiql: true
