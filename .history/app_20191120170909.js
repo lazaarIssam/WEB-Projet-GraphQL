@@ -13,12 +13,12 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const annonces = annonceIds => {
-    return Annonce.find({_id: {$in: annonceIds}})
+const annonces = annonceId => {
+    return Annonce.find({id: {$in: annonceId}})
     .then(annonces => {
         return annonces.map(annonce => {
             return { ...annonce._doc, _id:annonce.id, creator: user.bind(this, annonce.creator) }
-        });
+        })
     })
     .catch(err => {
         throw err;

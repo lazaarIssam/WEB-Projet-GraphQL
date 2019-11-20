@@ -13,28 +13,6 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const annonces = annonceIds => {
-    return Annonce.find({_id: {$in: annonceIds}})
-    .then(annonces => {
-        return annonces.map(annonce => {
-            return { ...annonce._doc, _id:annonce.id, creator: user.bind(this, annonce.creator) }
-        });
-    })
-    .catch(err => {
-        throw err;
-    });
-}
-
-const user = userId => {
-    return User.findById(userId)
-    .then(user => {
-        return { ...user._doc, _id: user.id, createdAnnonces: annonces.bind(this, user._doc.createdAnnonces)  }
-    })
-    .catch(err => {
-        throw err;
-    });
-}
-
 app.use('/api',
   graphqlHttp({
     schema: buildSchema(`
@@ -84,10 +62,9 @@ app.use('/api',
     `),
     rootValue: {
         annonces: () => {
-        return Annonce.find()
-        .then(annonces =>{
+        return Annonce.find().populate('creator').then(annonces =>{
             return annonces.map(res => {
-                return { ...res._doc, _id: res.id, creator: user.bind(this, res._doc.creator) }
+                return { ...res._doc, _id: res.id }
             });
         }).catch(err => {
             throw err;

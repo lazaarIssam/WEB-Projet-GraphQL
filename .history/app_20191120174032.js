@@ -13,17 +13,17 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const annonces = annonceIds => {
-    return Annonce.find({_id: {$in: annonceIds}})
-    .then(annonces => {
-        return annonces.map(annonce => {
-            return { ...annonce._doc, _id:annonce.id, creator: user.bind(this, annonce.creator) }
-        });
-    })
-    .catch(err => {
-        throw err;
-    });
-}
+// const annonces = annonceIds => {
+//     return Annonce.find({id: {$in: annonceIds}})
+//     .then(annonces => {
+//         return annonces.map(annonce => {
+//             return { ...annonce._doc, _id:annonce.id, creator: user.bind(this, annonce.creator) }
+//         });
+//     })
+//     .catch(err => {
+//         throw err;
+//     });
+// }
 
 const user = userId => {
     return User.findById(userId)

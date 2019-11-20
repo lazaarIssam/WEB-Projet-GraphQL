@@ -13,28 +13,6 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const annonces = annonceIds => {
-    return Annonce.find({_id: {$in: annonceIds}})
-    .then(annonces => {
-        return annonces.map(annonce => {
-            return { ...annonce._doc, _id:annonce.id, creator: user.bind(this, annonce.creator) }
-        });
-    })
-    .catch(err => {
-        throw err;
-    });
-}
-
-const user = userId => {
-    return User.findById(userId)
-    .then(user => {
-        return { ...user._doc, _id: user.id, createdAnnonces: annonces.bind(this, user._doc.createdAnnonces)  }
-    })
-    .catch(err => {
-        throw err;
-    });
-}
-
 app.use('/api',
   graphqlHttp({
     schema: buildSchema(`
@@ -46,14 +24,12 @@ app.use('/api',
             prix: Float!
             date: String!
             description: String!
-            creator: User!
         }
 
         type User {
             _id: ID,
             email: String!
             password: String
-            createdAnnonces: [Annonce!]
         }
 
         input AnnonceInput {
@@ -84,10 +60,9 @@ app.use('/api',
     `),
     rootValue: {
         annonces: () => {
-        return Annonce.find()
-        .then(annonces =>{
+        return Annonce.find().then(annonces =>{
             return annonces.map(res => {
-                return { ...res._doc, _id: res.id, creator: user.bind(this, res._doc.creator) }
+                return { ...res._doc, _id: res.id }
             });
         }).catch(err => {
             throw err;
@@ -100,39 +75,21 @@ app.use('/api',
             statusPub: args.annonceInput.statusPub,
             prix: +args.annonceInput.prix,
             date: new Date( args.annonceInput.date),
-            description: args.annonceInput.description,
-            creator: '5dd546103694d52f1c32d384'
+            description: args.annonceInput.description
         });
-        let createdAnnonce;
-        return annonce
-        .save()
-        .then(result =>{
-            createdAnnonce = { ...result._doc, _id: result.id };
-           return User.findById('5dd546103694d52f1c32d384')
+        return annonce.save().then(result =>{
             console.log('result: '+result);
-            
-        }).then(user => {
-            if(!user){
-                throw new Error('User existe pas !');
-            }
-            user.createdAnnonces.push(annonce);
-            return user.save();
-        }).then(result => {
-            return createdAnnonce;
-        })
-        .catch(err => {
+            return { ...result._doc, _id: result.id };
+        }).catch(err => {
             console.log('erreur: '+ err)
             throw err;
         });
         return annonce;
       },
       createUser: args => {
-          return User.findOne({email: args.userInput.email}).then(user => {
-              if(user){
-                  throw new Error('User deja existe déja !');
-              }
-              return bcrypt.hash(args.userInput.password, 12)
-          }).then(hashedPassword => {
+          return bcrypt
+          .hash(args.userInput.password, 12)
+          .then(hashedPassword => {
             const user = new User({
                 email: args.userInput.email,
                 password: hashedPassword

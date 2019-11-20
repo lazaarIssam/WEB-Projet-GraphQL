@@ -13,12 +13,12 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const annonces = annonceIds => {
-    return Annonce.find({_id: {$in: annonceIds}})
+const annonces = annonceId => {
+    return Annonce.find({id: {$in: annonceId}})
     .then(annonces => {
         return annonces.map(annonce => {
-            return { ...annonce._doc, _id:annonce.id, creator: user.bind(this, annonce.creator) }
-        });
+            return { ...annonce._doc, _id:annonce.id }
+        })
     })
     .catch(err => {
         throw err;
@@ -28,7 +28,7 @@ const annonces = annonceIds => {
 const user = userId => {
     return User.findById(userId)
     .then(user => {
-        return { ...user._doc, _id: user.id, createdAnnonces: annonces.bind(this, user._doc.createdAnnonces)  }
+        return { ...user._doc, _id: user.id }
     })
     .catch(err => {
         throw err;

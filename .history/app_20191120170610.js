@@ -13,13 +13,9 @@ const app = express();
 
 app.use(bodyParser.json());
 
-const annonces = annonceIds => {
-    return Annonce.find({_id: {$in: annonceIds}})
-    .then(annonces => {
-        return annonces.map(annonce => {
-            return { ...annonce._doc, _id:annonce.id, creator: user.bind(this, annonce.creator) }
-        });
-    })
+const annonces = annonceId => {
+    return Annonce.find({id: {$in: annonceId}})
+    .then()
     .catch(err => {
         throw err;
     });
@@ -28,7 +24,7 @@ const annonces = annonceIds => {
 const user = userId => {
     return User.findById(userId)
     .then(user => {
-        return { ...user._doc, _id: user.id, createdAnnonces: annonces.bind(this, user._doc.createdAnnonces)  }
+        return { ...user._doc, _id: user.id }
     })
     .catch(err => {
         throw err;

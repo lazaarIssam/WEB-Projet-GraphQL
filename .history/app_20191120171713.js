@@ -14,7 +14,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const annonces = annonceIds => {
-    return Annonce.find({_id: {$in: annonceIds}})
+    return Annonce.find({id: {$in: annonceIds}})
     .then(annonces => {
         return annonces.map(annonce => {
             return { ...annonce._doc, _id:annonce.id, creator: user.bind(this, annonce.creator) }
