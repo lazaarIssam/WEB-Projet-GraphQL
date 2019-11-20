@@ -46,13 +46,7 @@ app.use('/api',
     `),
     rootValue: {
         annonces: () => {
-        return Annonce.find().then(annonces =>{
-            return annonces.map(res => {
-                return { ...res._doc, _id: res.id }
-            });
-        }).catch(err => {
-            throw err;
-        });
+        return annonces;
       },
       createAnnonce: (args) => {
         const annonce = new Annonce({
@@ -63,12 +57,10 @@ app.use('/api',
             date: new Date( args.annonceInput.date),
             description: args.annonceInput.description
         });
-        return annonce.save().then(result =>{
+        annonce.save().then(result =>{
             console.log('result: '+result);
-            return { ...result._doc, _id: result.id };
         }).catch(err => {
             console.log('erreur: '+ err)
-            throw err;
         });
         return annonce;
       }

@@ -4,10 +4,9 @@ const graphqlHttp = require('express-graphql');
 const { buildSchema } = require('graphql');
 const mongoose = require('mongoose');
 
-const Annonce = require('./models/annonce')
-
 const app = express();
 
+const annonces = [];
 
 app.use(bodyParser.json());
 
@@ -46,30 +45,19 @@ app.use('/api',
     `),
     rootValue: {
         annonces: () => {
-        return Annonce.find().then(annonces =>{
-            return annonces.map(res => {
-                return { ...res._doc, _id: res.id }
-            });
-        }).catch(err => {
-            throw err;
-        });
+        return annonces;
       },
       createAnnonce: (args) => {
-        const annonce = new Annonce({
+        const annonce = {
+            _id: Math.random().toString(),
             title: args.annonceInput.title,
             typedebien: args.annonceInput.typedebien,
             statusPub: args.annonceInput.statusPub,
             prix: +args.annonceInput.prix,
-            date: new Date( args.annonceInput.date),
+            date: args.annonceInput.date,
             description: args.annonceInput.description
-        });
-        return annonce.save().then(result =>{
-            console.log('result: '+result);
-            return { ...result._doc, _id: result.id };
-        }).catch(err => {
-            console.log('erreur: '+ err)
-            throw err;
-        });
+        }
+        annonces.push(annonce);
         return annonce;
       }
     },
@@ -87,7 +75,7 @@ app.use('/api',
 //     console.log(err);
 //   });
 
-mongoose.connect('mongodb://localhost:27017/ghraph', { useUnifiedTopology: true, useNewUrlParser: true }).then(() => {
+mongoose.connect('mongodb://localhost:27017/ghraph', { useNewUrlParser: true }).then(() => {
     console.log("Connecte !");
             app.listen(3000);
         })

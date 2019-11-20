@@ -47,8 +47,8 @@ app.use('/api',
     rootValue: {
         annonces: () => {
         return Annonce.find().then(annonces =>{
-            return annonces.map(res => {
-                return { ...res._doc, _id: res.id }
+            return annonces.map(result => {
+                return { ...result._doc }
             });
         }).catch(err => {
             throw err;
@@ -65,7 +65,7 @@ app.use('/api',
         });
         return annonce.save().then(result =>{
             console.log('result: '+result);
-            return { ...result._doc, _id: result.id };
+            return { ...result._doc };
         }).catch(err => {
             console.log('erreur: '+ err)
             throw err;

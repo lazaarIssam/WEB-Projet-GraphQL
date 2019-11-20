@@ -46,15 +46,18 @@ app.use('/api',
     `),
     rootValue: {
         annonces: () => {
-        return Annonce.find().then(annonces =>{
-            return annonces.map(res => {
-                return { ...res._doc, _id: res.id }
-            });
-        }).catch(err => {
-            throw err;
-        });
+        return annonces;
       },
       createAnnonce: (args) => {
+        // const annonce = {
+        //     _id: Math.random().toString(),
+        //     title: args.annonceInput.title,
+        //     typedebien: args.annonceInput.typedebien,
+        //     statusPub: args.annonceInput.statusPub,
+        //     prix: +args.annonceInput.prix,
+        //     date: args.annonceInput.date,
+        //     description: args.annonceInput.description
+        // }
         const annonce = new Annonce({
             title: args.annonceInput.title,
             typedebien: args.annonceInput.typedebien,
@@ -63,12 +66,10 @@ app.use('/api',
             date: new Date( args.annonceInput.date),
             description: args.annonceInput.description
         });
-        return annonce.save().then(result =>{
-            console.log('result: '+result);
-            return { ...result._doc, _id: result.id };
+        annonce.save().then(result =>{
+            console.log(result);
         }).catch(err => {
-            console.log('erreur: '+ err)
-            throw err;
+            console.log('erreur')
         });
         return annonce;
       }

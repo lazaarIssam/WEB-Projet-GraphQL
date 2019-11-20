@@ -65,7 +65,7 @@ app.use('/api',
         });
         return annonce.save().then(result =>{
             console.log('result: '+result);
-            return { ...result._doc, _id: result.id };
+            return { ...result._doc, _id:result._doc._id.toString() };
         }).catch(err => {
             console.log('erreur: '+ err)
             throw err;
