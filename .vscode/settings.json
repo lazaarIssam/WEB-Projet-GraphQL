@@ -3,6 +3,7 @@
         "Annonce",
         "annonces",
         "graphqlproj",
+        "shema",
         "typedebien"
     ],
     "git.ignoreLimitWarning": true

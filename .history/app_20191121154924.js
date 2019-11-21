@@ -1,19 +1,44 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
+const { buildSchema } = require('graphql');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-const graphQLSchema = require('./graphql/shema/index');
-const graphQLResolvers = require('./graphql/resolvers/index');
+const Annonce = require('./models/annonce')
+const User = require('./models/user')
 
 const app = express();
 
+
 app.use(bodyParser.json());
+
+const annonces = annonceIds => {
+    return Annonce.find({_id: {$in: annonceIds}})
+    .then(annonces => {
+        return annonces.map(annonce => {
+            return { ...annonce._doc, _id:annonce.id, creator: user.bind(this, annonce.creator) }
+        });
+    })
+    .catch(err => {
+        throw err;
+    });
+}
+
+const user = userId => {
+    return User.findById(userId)
+    .then(user => {
+        return { ...user._doc, _id: user.id, createdAnnonces: annonces.bind(this, user._doc.createdAnnonces)  }
+    })
+    .catch(err => {
+        throw err;
+    });
+}
 
 app.use('/api',
   graphqlHttp({
-    schema: graphQLSchema,
-    rootValue: graphQLResolvers,
+    schema: ,
+    rootValue: ,
     graphiql: true
   })
 );

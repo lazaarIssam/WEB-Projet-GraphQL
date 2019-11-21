@@ -2,18 +2,22 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-const graphQLSchema = require('./graphql/shema/index');
-const graphQLResolvers = require('./graphql/resolvers/index');
+const Annonce = require('./models/annonce')
+const User = require('./models/user')
 
 const app = express();
 
+
 app.use(bodyParser.json());
+
+
 
 app.use('/api',
   graphqlHttp({
-    schema: graphQLSchema,
-    rootValue: graphQLResolvers,
+    schema: ,
+    rootValue: ,
     graphiql: true
   })
 );

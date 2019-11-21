@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 
 app.use('/api',
   graphqlHttp({
-    schema: graphQLSchema,
-    rootValue: graphQLResolvers,
+    schema: ,
+    rootValue: ,
     graphiql: true
   })
 );
