@@ -55,6 +55,7 @@ module.exports = buildSchema(`
             createAnnonce(annonceInput: AnnonceInput): Annonce
             createUser(userInput: UserInput): User
             createQuestion(questionInput: QuestionInput): Question
+            createResponse(responseInput: ResponseInput): Response
         }
         schema {
             query: RootQuery

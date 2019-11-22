@@ -47,6 +47,11 @@ module.exports = buildSchema(`
             description: String!
         }
 
+        input ResponseInput {
+            date: String!
+            description: String!
+        }
+
         type RootQuery {
             annonces: [Annonce!]!
             questions: [Question!]!
@@ -55,6 +60,7 @@ module.exports = buildSchema(`
             createAnnonce(annonceInput: AnnonceInput): Annonce
             createUser(userInput: UserInput): User
             createQuestion(questionInput: QuestionInput): Question
+            createResponse(responseInput: ResponseInput): Response
         }
         schema {
             query: RootQuery

@@ -19,14 +19,6 @@ module.exports = buildSchema(`
             createdAnnonces: [Annonce!]
         }
 
-        type Question {
-            _id: ID!
-            title: String!
-            date: String!
-            description: String!
-            creator: User!
-        }
-
         input AnnonceInput {
             title: String!
             typedebien: String!
@@ -41,20 +33,12 @@ module.exports = buildSchema(`
             password: String!
         }
 
-        input QuestionInput {
-            title: String!
-            date: String!
-            description: String!
-        }
-
         type RootQuery {
             annonces: [Annonce!]!
-            questions: [Question!]!
         }
         type RootMutation {
             createAnnonce(annonceInput: AnnonceInput): Annonce
             createUser(userInput: UserInput): User
-            createQuestion(questionInput: QuestionInput): Question
         }
         schema {
             query: RootQuery
