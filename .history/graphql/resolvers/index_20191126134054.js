@@ -24,14 +24,14 @@ const annonces = annonceIds => {
 //-----------------------------------------------------
 const reponses = reponseIds => {
     return Reponse.find({_id: {$in: reponseIds}})
-    .then(reponses => {
+    .then(annonces => {
         return reponses.map(reponse => {
             return { 
                 ...reponse._doc,
                 _id:reponse.id,
                 createdAt: new Date(reponse._doc.createdAt).toISOString(),
                 updatedAt: new Date(reponse._doc.updatedAt).toISOString(),
-                user: user.bind(this, reponse.user) 
+                user: user.bind(this, annonce.user) 
             }
         });
     })
@@ -47,6 +47,7 @@ const questions = questionIds => {
             return { 
                 ...question._doc,
                 _id:question.id,
+                createdResponses: reponses.bind(this, question.createdResponses),
                 date: new Date(question._doc.date).toISOString(),
                 creator: user.bind(this, question.creator) }
         });
@@ -63,7 +64,6 @@ const user = userId => {
             ...user._doc,
             _id: user.id,
             password: null,
-            createdReponses: reponses.bind(this.user._doc.createdReponses),
             createdAnnonces: annonces.bind(this, user._doc.createdAnnonces),
             createdQuestions: questions.bind(this, user._doc.createdQuestions)
         }
@@ -113,7 +113,7 @@ module.exports = {
         prix: +args.annonceInput.prix,
         date: new Date( args.annonceInput.date),
         description: args.annonceInput.description,
-        creator: '5ddd20aabd9d483c84b57a85'
+        creator: '5dd6c78636dd5815f4f50425'
     });
     let createdAnnonce;
     return annonce
@@ -124,7 +124,7 @@ module.exports = {
             _id: result.id,
             creator: user.bind(this, result._doc.creator)
         };
-       return User.findById('5ddd20aabd9d483c84b57a85')
+       return User.findById('5dd6c78636dd5815f4f50425')
     }).then(user => {
         if(!user){
             throw new Error('User existe pas !');
@@ -146,7 +146,7 @@ module.exports = {
         title: args.questionInput.title,
         date: new Date( args.questionInput.date),
         description: args.questionInput.description,
-        creator: '5ddd20aabd9d483c84b57a85'
+        creator: '5dd6c78636dd5815f4f50425'
     });
     let createdQuestion;
     return question
@@ -157,7 +157,7 @@ module.exports = {
             _id: result.id,
             creator: user.bind(this, result._doc.creator)
         };
-       return User.findById('5ddd20aabd9d483c84b57a85')
+       return User.findById('5dd6c78636dd5815f4f50425')
         
     }).then(user => {
         if(!user){
@@ -200,34 +200,20 @@ module.exports = {
       });
   },
   reponseQuestion: async args => {
-    const fetchedQuestion = await Question.findOne({_id: args.questionId});
-    const reponse = new Reponse({
-        user: '5ddd20aabd9d483c84b57a85',
-        question: fetchedQuestion,
-        message: args.message
+      const fetchedQuestion = await Question.findOne({_id: args.questionId});
+      const reponses = new Reponse({
+          user: '5dd6c78636dd5815f4f50425',
+          question: fetchedQuestion,
+          message: args.message
 
-    });
-    const result = await reponse.save();
-    let createdReponse =  { 
-        ...result._doc,
-        id: result.id,
-        user: user.bind(this, result._doc.user ),
-        createdAt: new Date(result._doc.createdAt).toISOString(),
-        updatedAt: new Date(result._doc.updatedAt).toISOString()
-      };
-    return User.findById('5ddd20aabd9d483c84b57a85')
-    .then(user => {
-        if(!user){
-            throw new Error('User existe pas !');
-        }
-        user.createdReponses.push(reponse);
-        return user.save();
-    }).then(result => {
-        return createdReponse;
-    })
-    .catch(err => {
-        console.log('erreur: '+ err)
-        throw err;
-    });
-    }   
+      });
+      const result = await reponses.save();
+      return  { 
+          ...result._doc,
+          id: result.id,
+          user: user.bind(this, result._doc.user ),
+          createdAt: new Date(result._doc.createdAt).toISOString(),
+          updatedAt: new Date(result._doc.updatedAt).toISOString()
+        };
+  }
 }

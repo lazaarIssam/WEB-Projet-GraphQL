@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 const Annonce = require('../../models/annonce')
 const User = require('../../models/user')
 const Question = require('../../models/question')
-const Reponse = require('../../models/reponse')
 
 const annonces = annonceIds => {
     return Annonce.find({_id: {$in: annonceIds}})
@@ -13,48 +12,14 @@ const annonces = annonceIds => {
                 ...annonce._doc,
                 _id:annonce.id,
                 date: new Date(annonce._doc.date).toISOString(),
-                creator: user.bind(this, annonce.creator) 
-            }
+                creator: user.bind(this, annonce.creator) }
         });
     })
     .catch(err => {
         throw err;
     });
 }
-//-----------------------------------------------------
-const reponses = reponseIds => {
-    return Reponse.find({_id: {$in: reponseIds}})
-    .then(reponses => {
-        return reponses.map(reponse => {
-            return { 
-                ...reponse._doc,
-                _id:reponse.id,
-                createdAt: new Date(reponse._doc.createdAt).toISOString(),
-                updatedAt: new Date(reponse._doc.updatedAt).toISOString(),
-                user: user.bind(this, reponse.user) 
-            }
-        });
-    })
-    .catch(err => {
-        throw err;
-    });
-}
-//-----------------------------------------------------
-const questions = questionIds => {
-    return Question.find({_id: {$in: questionIds}})
-    .then(questions => {
-        return questions.map(question => {
-            return { 
-                ...question._doc,
-                _id:question.id,
-                date: new Date(question._doc.date).toISOString(),
-                creator: user.bind(this, question.creator) }
-        });
-    })
-    .catch(err => {
-        throw err;
-    });
-}
+
 //-----------------------------------------------------
 const user = userId => {
     return User.findById(userId)
@@ -63,9 +28,7 @@ const user = userId => {
             ...user._doc,
             _id: user.id,
             password: null,
-            createdReponses: reponses.bind(this.user._doc.createdReponses),
-            createdAnnonces: annonces.bind(this, user._doc.createdAnnonces),
-            createdQuestions: questions.bind(this, user._doc.createdQuestions)
+            createdAnnonces: annonces.bind(this, user._doc.createdAnnonces)
         }
     })
     .catch(err => {
@@ -113,7 +76,7 @@ module.exports = {
         prix: +args.annonceInput.prix,
         date: new Date( args.annonceInput.date),
         description: args.annonceInput.description,
-        creator: '5ddd20aabd9d483c84b57a85'
+        creator: '5dd546103694d52f1c32d384'
     });
     let createdAnnonce;
     return annonce
@@ -124,7 +87,8 @@ module.exports = {
             _id: result.id,
             creator: user.bind(this, result._doc.creator)
         };
-       return User.findById('5ddd20aabd9d483c84b57a85')
+       return User.findById('5dd546103694d52f1c32d384')
+        
     }).then(user => {
         if(!user){
             throw new Error('User existe pas !');
@@ -142,11 +106,11 @@ module.exports = {
   },
  //-----------------------------------------------------
   createQuestion: (args) => {
-    const question = new Question({
+    const question = new Annonce({
         title: args.questionInput.title,
         date: new Date( args.questionInput.date),
         description: args.questionInput.description,
-        creator: '5ddd20aabd9d483c84b57a85'
+        creator: '5dd546103694d52f1c32d384'
     });
     let createdQuestion;
     return question
@@ -157,7 +121,7 @@ module.exports = {
             _id: result.id,
             creator: user.bind(this, result._doc.creator)
         };
-       return User.findById('5ddd20aabd9d483c84b57a85')
+       return User.findById('5dd546103694d52f1c32d384')
         
     }).then(user => {
         if(!user){
@@ -198,36 +162,5 @@ module.exports = {
       .catch(err => {
           throw err;
       });
-  },
-  reponseQuestion: async args => {
-    const fetchedQuestion = await Question.findOne({_id: args.questionId});
-    const reponse = new Reponse({
-        user: '5ddd20aabd9d483c84b57a85',
-        question: fetchedQuestion,
-        message: args.message
-
-    });
-    const result = await reponse.save();
-    let createdReponse =  { 
-        ...result._doc,
-        id: result.id,
-        user: user.bind(this, result._doc.user ),
-        createdAt: new Date(result._doc.createdAt).toISOString(),
-        updatedAt: new Date(result._doc.updatedAt).toISOString()
-      };
-    return User.findById('5ddd20aabd9d483c84b57a85')
-    .then(user => {
-        if(!user){
-            throw new Error('User existe pas !');
-        }
-        user.createdReponses.push(reponse);
-        return user.save();
-    }).then(result => {
-        return createdReponse;
-    })
-    .catch(err => {
-        console.log('erreur: '+ err)
-        throw err;
-    });
-    }   
+  }
 }

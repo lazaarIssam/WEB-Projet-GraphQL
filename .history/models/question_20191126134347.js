@@ -18,7 +18,7 @@ const questionSchema = new Schema({
     creator: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
 });
 
 module.exports =mongoose.model('Question', questionSchema);

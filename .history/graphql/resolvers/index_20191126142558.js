@@ -47,6 +47,7 @@ const questions = questionIds => {
             return { 
                 ...question._doc,
                 _id:question.id,
+                createdReponses: reponses.bind(this.question._doc.createdReponses),
                 date: new Date(question._doc.date).toISOString(),
                 creator: user.bind(this, question.creator) }
         });
@@ -207,14 +208,14 @@ module.exports = {
         message: args.message
 
     });
-    const result = await reponse.save();
-    let createdReponse =  { 
-        ...result._doc,
-        id: result.id,
-        user: user.bind(this, result._doc.user ),
-        createdAt: new Date(result._doc.createdAt).toISOString(),
-        updatedAt: new Date(result._doc.updatedAt).toISOString()
-      };
+    const result = await reponses.save();
+    // return  { 
+    //     ...result._doc,
+    //     id: result.id,
+    //     user: user.bind(this, result._doc.user ),
+    //     createdAt: new Date(result._doc.createdAt).toISOString(),
+    //     updatedAt: new Date(result._doc.updatedAt).toISOString()
+    //   };
     return User.findById('5ddd20aabd9d483c84b57a85')
     .then(user => {
         if(!user){

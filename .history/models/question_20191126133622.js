@@ -18,7 +18,13 @@ const questionSchema = new Schema({
     creator: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    createdResponses: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Response'
+        }
+    ]
 });
 
 module.exports =mongoose.model('Question', questionSchema);

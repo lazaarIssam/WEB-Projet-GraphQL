@@ -47,6 +47,7 @@ const questions = questionIds => {
             return { 
                 ...question._doc,
                 _id:question.id,
+                createdReponses: reponses.bind(this.question._doc.createdReponses),
                 date: new Date(question._doc.date).toISOString(),
                 creator: user.bind(this, question.creator) }
         });

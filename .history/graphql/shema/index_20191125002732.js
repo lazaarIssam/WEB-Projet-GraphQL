@@ -1,7 +1,7 @@
 const { buildSchema } = require('graphql');
 
 module.exports = buildSchema(`
-        type Reponse {
+        type reponse {
             _id: ID!
             question: Question!
             user: User!
@@ -27,7 +27,6 @@ module.exports = buildSchema(`
             password: String
             createdAnnonces: [Annonce!]
             createdQuestions: [Question!]
-            createdReponses: [Reponse!]
         }
 
         type Question {
@@ -66,7 +65,7 @@ module.exports = buildSchema(`
             createAnnonce(annonceInput: AnnonceInput): Annonce
             createUser(userInput: UserInput): User
             createQuestion(questionInput: QuestionInput): Question
-            reponseQuestion(questionId: ID!,message: String!): Reponse
+            reponseQuestion(questionId: ID!): Reponse
         }
         schema {
             query: RootQuery

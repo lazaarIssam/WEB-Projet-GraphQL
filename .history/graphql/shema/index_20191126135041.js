@@ -19,6 +19,7 @@ module.exports = buildSchema(`
             date: String!
             description: String!
             creator: User!
+            createdReponses: [Reponse!]
         }
 
         type User {

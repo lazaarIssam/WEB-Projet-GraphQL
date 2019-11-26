@@ -19,6 +19,7 @@ module.exports = buildSchema(`
             date: String!
             description: String!
             creator: User!
+            createdResponses: [Reponse!]
         }
 
         type User {
@@ -27,7 +28,6 @@ module.exports = buildSchema(`
             password: String
             createdAnnonces: [Annonce!]
             createdQuestions: [Question!]
-            createdReponses: [Reponse!]
         }
 
         type Question {

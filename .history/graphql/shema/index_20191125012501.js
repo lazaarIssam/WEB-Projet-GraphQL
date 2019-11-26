@@ -27,7 +27,6 @@ module.exports = buildSchema(`
             password: String
             createdAnnonces: [Annonce!]
             createdQuestions: [Question!]
-            createdReponses: [Reponse!]
         }
 
         type Question {

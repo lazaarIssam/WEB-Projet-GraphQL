@@ -26,7 +26,7 @@ const userSchema = new Schema({
     createdReponses: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Reponse'
+            ref: 'Question'
         }
     ]
 });

@@ -47,6 +47,7 @@ const questions = questionIds => {
             return { 
                 ...question._doc,
                 _id:question.id,
+                createdReponses: reponses.bind(this.question._doc.createdReponses),
                 date: new Date(question._doc.date).toISOString(),
                 creator: user.bind(this, question.creator) }
         });
@@ -199,35 +200,37 @@ module.exports = {
           throw err;
       });
   },
-  reponseQuestion: async args => {
-    const fetchedQuestion = await Question.findOne({_id: args.questionId});
+  reponseQuestion: (args) => {
+    const fetchedQuestion = Question.findOne({_id: args.questionId});
     const reponse = new Reponse({
         user: '5ddd20aabd9d483c84b57a85',
         question: fetchedQuestion,
         message: args.message
-
     });
-    const result = await reponse.save();
-    let createdReponse =  { 
-        ...result._doc,
-        id: result.id,
-        user: user.bind(this, result._doc.user ),
-        createdAt: new Date(result._doc.createdAt).toISOString(),
-        updatedAt: new Date(result._doc.updatedAt).toISOString()
-      };
-    return User.findById('5ddd20aabd9d483c84b57a85')
-    .then(user => {
+    let createdReponse;
+    return reponse
+    .save()
+    .then(result =>{
+        createdReponse = { 
+            ...result._doc,
+            _id: result.id,
+            user: user.bind(this, result._doc.user)
+        };
+       return User.findById('5ddd20aabd9d483c84b57a85')
+        
+    }).then(user => {
         if(!user){
             throw new Error('User existe pas !');
         }
-        user.createdReponses.push(reponse);
+        user.createdQuestions.push(question);
         return user.save();
     }).then(result => {
-        return createdReponse;
+        return createdQuestion;
     })
     .catch(err => {
         console.log('erreur: '+ err)
         throw err;
     });
-    }   
+    return question;
+  }
 }

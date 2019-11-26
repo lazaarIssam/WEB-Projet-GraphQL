@@ -20,13 +20,7 @@ const userSchema = new Schema({
     createdQuestions: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Question'
-        }
-    ],
-    createdReponses: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Reponse'
+            ref: 'Annonce'
         }
     ]
 });

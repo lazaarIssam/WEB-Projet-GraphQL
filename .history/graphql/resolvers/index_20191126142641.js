@@ -47,6 +47,7 @@ const questions = questionIds => {
             return { 
                 ...question._doc,
                 _id:question.id,
+                createdReponses: reponses.bind(this.question._doc.createdReponses),
                 date: new Date(question._doc.date).toISOString(),
                 creator: user.bind(this, question.creator) }
         });
@@ -207,7 +208,7 @@ module.exports = {
         message: args.message
 
     });
-    const result = await reponse.save();
+    const result = await reponses.save();
     let createdReponse =  { 
         ...result._doc,
         id: result.id,
