@@ -19,6 +19,7 @@ module.exports = buildSchema(`
             date: String!
             description: String!
             creator: User!
+            createdReponses: [Reponse!]
         }
 
         type User {
@@ -36,7 +37,6 @@ module.exports = buildSchema(`
             date: String!
             description: String!
             creator: User!
-            createdReponses: [Reponse!]
         }
 
         input AnnonceInput {
@@ -67,7 +67,7 @@ module.exports = buildSchema(`
             createAnnonce(annonceInput: AnnonceInput): Annonce
             createUser(userInput: UserInput): User
             createQuestion(questionInput: QuestionInput): Question
-            createReponse(questionId: ID!,message: String!): Reponse
+            reponseQuestion(questionId: ID!,message: String!): Reponse
         }
         schema {
             query: RootQuery

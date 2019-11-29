@@ -2,9 +2,21 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const questionSchema = new Schema({
+const annonceSchema = new Schema({
     title: {
         type: String,
+        required: true
+    },
+    typedebien: {
+        type: String,
+        required: true
+    },
+    statusPub: {
+        type: String,
+        required: true
+    },
+    prix: {
+        type: Number,
         required: true
     },
     date: {
@@ -27,4 +39,4 @@ const questionSchema = new Schema({
     ]
 });
 
-module.exports =mongoose.model('Question', questionSchema);
+module.exports =mongoose.model('Annonce', annonceSchema);

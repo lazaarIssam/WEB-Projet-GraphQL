@@ -202,7 +202,7 @@ module.exports = {
           throw err;
       });
   },
-  createReponse: async args => {
+  reponseQuestion: async args => {
     const fetchedQuestion = await Question.findOne({_id: args.questionId});
     const reponse = new Reponse({
         user: '5de165141f63b02e88596745',

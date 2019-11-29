@@ -48,8 +48,7 @@ const questions = questionIds => {
                 ...question._doc,
                 _id:question.id,
                 date: new Date(question._doc.date).toISOString(),
-                creator: user.bind(this, question.creator),
-                createdReponses: reponses.bind(this, question._doc.createdReponses)
+                creator: user.bind(this, question.creator)
              }
         });
     })
@@ -100,7 +99,6 @@ module.exports = {
                 ...res._doc,
                 _id: res.id,
                 creator: user.bind(this, res._doc.creator),
-                createdReponses: reponses.bind(this, res._doc.createdReponses)
             }
         });
     }).catch(err => {
@@ -116,7 +114,7 @@ module.exports = {
         prix: +args.annonceInput.prix,
         date: new Date( args.annonceInput.date),
         description: args.annonceInput.description,
-        creator: '5de165141f63b02e88596745'
+        creator: '5ddd20aabd9d483c84b57a85'
     });
     let createdAnnonce;
     return annonce
@@ -127,7 +125,7 @@ module.exports = {
             _id: result.id,
             creator: user.bind(this, result._doc.creator)
         };
-       return User.findById('5de165141f63b02e88596745')
+       return User.findById('5ddd20aabd9d483c84b57a85')
     }).then(user => {
         if(!user){
             throw new Error('User existe pas !');
@@ -149,7 +147,7 @@ module.exports = {
         title: args.questionInput.title,
         date: new Date( args.questionInput.date),
         description: args.questionInput.description,
-        creator: '5de165141f63b02e88596745'
+        creator: '5ddd20aabd9d483c84b57a85'
     });
     let createdQuestion;
     return question
@@ -160,7 +158,7 @@ module.exports = {
             _id: result.id,
             creator: user.bind(this, result._doc.creator)
         };
-       return User.findById('5de165141f63b02e88596745')
+       return User.findById('5ddd20aabd9d483c84b57a85')
         
     }).then(user => {
         if(!user){
@@ -202,11 +200,10 @@ module.exports = {
           throw err;
       });
   },
-  createReponse: async args => {
+  reponseQuestion: async args => {
     const fetchedQuestion = await Question.findOne({_id: args.questionId});
     const reponse = new Reponse({
-        user: '5de165141f63b02e88596745',
-        question: fetchedQuestion,
+        user: '5ddd20aabd9d483c84b57a85',
         message: args.message
 
     });
@@ -218,7 +215,7 @@ module.exports = {
         createdAt: new Date(result._doc.createdAt).toISOString(),
         updatedAt: new Date(result._doc.updatedAt).toISOString()
       };
-    return User.findById('5de165141f63b02e88596745')
+    return User.findById('5ddd20aabd9d483c84b57a85')
     .then(user => {
         if(!user){
             throw new Error('User existe pas !');
@@ -226,19 +223,7 @@ module.exports = {
         user.createdReponses.push(reponse);
         return user.save();
     }).then(result => {
-        //return createdReponse;
-        return Question.findById(fetchedQuestion).then(question => {
-            if(!question){
-                throw new Error('User existe pas !');
-            }
-            question.createdReponses.push(reponse);
-            return question.save();
-        }).then(result => {
-            return createdReponse;
-        }).catch(err => {
-            console.log('erreur: '+ err)
-        throw err;
-        })
+        return createdReponse;
     })
     .catch(err => {
         console.log('erreur: '+ err)

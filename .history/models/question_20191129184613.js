@@ -15,16 +15,16 @@ const questionSchema = new Schema({
         type: String,
         required: true
     },
-    creator: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    },
     createdReponses: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Reponse'
         }
-    ]
+    ],
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 module.exports =mongoose.model('Question', questionSchema);

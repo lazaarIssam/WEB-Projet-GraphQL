@@ -24,7 +24,7 @@ const questionSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Reponse'
         }
-    ]
+    ],
 });
 
 module.exports =mongoose.model('Question', questionSchema);

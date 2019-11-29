@@ -116,7 +116,7 @@ module.exports = {
         prix: +args.annonceInput.prix,
         date: new Date( args.annonceInput.date),
         description: args.annonceInput.description,
-        creator: '5de165141f63b02e88596745'
+        creator: '5ddd20aabd9d483c84b57a85'
     });
     let createdAnnonce;
     return annonce
@@ -127,7 +127,7 @@ module.exports = {
             _id: result.id,
             creator: user.bind(this, result._doc.creator)
         };
-       return User.findById('5de165141f63b02e88596745')
+       return User.findById('5ddd20aabd9d483c84b57a85')
     }).then(user => {
         if(!user){
             throw new Error('User existe pas !');
@@ -149,7 +149,7 @@ module.exports = {
         title: args.questionInput.title,
         date: new Date( args.questionInput.date),
         description: args.questionInput.description,
-        creator: '5de165141f63b02e88596745'
+        creator: '5ddd20aabd9d483c84b57a85'
     });
     let createdQuestion;
     return question
@@ -160,7 +160,7 @@ module.exports = {
             _id: result.id,
             creator: user.bind(this, result._doc.creator)
         };
-       return User.findById('5de165141f63b02e88596745')
+       return User.findById('5ddd20aabd9d483c84b57a85')
         
     }).then(user => {
         if(!user){
@@ -202,10 +202,10 @@ module.exports = {
           throw err;
       });
   },
-  createReponse: async args => {
+  reponseQuestion: async args => {
     const fetchedQuestion = await Question.findOne({_id: args.questionId});
     const reponse = new Reponse({
-        user: '5de165141f63b02e88596745',
+        user: '5ddd20aabd9d483c84b57a85',
         question: fetchedQuestion,
         message: args.message
 
@@ -218,7 +218,7 @@ module.exports = {
         createdAt: new Date(result._doc.createdAt).toISOString(),
         updatedAt: new Date(result._doc.updatedAt).toISOString()
       };
-    return User.findById('5de165141f63b02e88596745')
+    return User.findById('5ddd20aabd9d483c84b57a85')
     .then(user => {
         if(!user){
             throw new Error('User existe pas !');
