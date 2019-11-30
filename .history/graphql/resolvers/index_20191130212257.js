@@ -48,7 +48,7 @@ const questions = questionIds => {
             return { 
                 ...question._doc,
                 _id:question.id,
-                date: dateToString(question._doc.date),
+                date: new Date(question._doc.date).toISOString(),
                 creator: user.bind(this, question.creator),
                 createdReponses: reponses.bind(this, question._doc.createdReponses)
              }
@@ -249,8 +249,8 @@ module.exports = {
         ...result._doc,
         id: result.id,
         user: user.bind(this, result._doc.user ),
-        createdAt: dateToString(result._doc.createdAt),
-        updatedAt: dateToString(result._doc.updatedAt)
+        createdAt: new Date(result._doc.createdAt).toISOString(),
+        updatedAt: new Date(result._doc.updatedAt).toISOString()
       };
     return User.findById('5de165141f63b02e88596745')
     .then(user => {

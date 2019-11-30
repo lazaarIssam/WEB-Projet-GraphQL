@@ -13,6 +13,7 @@ const annonces = annonceIds => {
             return { 
                 ...annonce._doc,
                 _id:annonce.id,
+                //date: new Date(annonce._doc.date).toISOString(),
                 date: dateToString(annonce._doc.date),
                 creator: user.bind(this, annonce.creator) 
             }
@@ -30,8 +31,8 @@ const reponses = reponseIds => {
             return { 
                 ...reponse._doc,
                 _id:reponse.id,
-                createdAt: dateToString(reponse._doc.createdAt),
-                updatedAt: dateToString(reponse._doc.updatedAt),
+                createdAt: new Date(reponse._doc.createdAt).toISOString(),
+                updatedAt: new Date(reponse._doc.updatedAt).toISOString(),
                 user: user.bind(this, reponse.user),
             }
         });
@@ -48,7 +49,7 @@ const questions = questionIds => {
             return { 
                 ...question._doc,
                 _id:question.id,
-                date: dateToString(question._doc.date),
+                date: new Date(question._doc.date).toISOString(),
                 creator: user.bind(this, question.creator),
                 createdReponses: reponses.bind(this, question._doc.createdReponses)
              }
@@ -85,8 +86,6 @@ module.exports = {
             return { 
                 ...res._doc,
                 _id: res.id,
-                // date: new Date(res._doc.date).toISOString(),
-                date: dateToString(res._doc.date),
                 createdQuestions: questions.bind(this, res._doc.createdQuestions),
                 creator: user.bind(this, res._doc.creator)
             }
@@ -249,8 +248,8 @@ module.exports = {
         ...result._doc,
         id: result.id,
         user: user.bind(this, result._doc.user ),
-        createdAt: dateToString(result._doc.createdAt),
-        updatedAt: dateToString(result._doc.updatedAt)
+        createdAt: new Date(result._doc.createdAt).toISOString(),
+        updatedAt: new Date(result._doc.updatedAt).toISOString()
       };
     return User.findById('5de165141f63b02e88596745')
     .then(user => {

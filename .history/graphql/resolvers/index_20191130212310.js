@@ -249,8 +249,8 @@ module.exports = {
         ...result._doc,
         id: result.id,
         user: user.bind(this, result._doc.user ),
-        createdAt: dateToString(result._doc.createdAt),
-        updatedAt: dateToString(result._doc.updatedAt)
+        createdAt: new Date(result._doc.createdAt).toISOString(),
+        updatedAt: new Date(result._doc.updatedAt).toISOString()
       };
     return User.findById('5de165141f63b02e88596745')
     .then(user => {
