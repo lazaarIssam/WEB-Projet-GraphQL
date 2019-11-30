@@ -67,8 +67,7 @@ module.exports = buildSchema(`
         }
         type RootMutation {
             createAnnonce(annonceInput: AnnonceInput): Annonce
-            updateAnnonce(annonceId: ID!,annonceInput: AnnonceInput): Annonce
-            deleteAnnonce(annonceId: ID!): User 
+            updateAnnonce(annonceId: ID!,updateAnnonceInput: UpdateAnnonceInput): Annonce
             createUser(userInput: UserInput): User
             createQuestion(annonceId: ID!,questionInput: QuestionInput): Question
             createReponse(questionId: ID!,message: String!): Reponse

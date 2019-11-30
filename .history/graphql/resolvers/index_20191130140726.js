@@ -144,9 +144,9 @@ module.exports = {
     });
     return annonce;
   },
-  updateAnnonce: async args => {
-      return await Annonce.findOneAndUpdate({_id: args.annonceId});
-      //*-------------
+  updateAnnonce: args => {
+      const foundAnnonce = Annonce.updateOne({_id: args.annonceId});
+      
   },
   createUser: args => {
       return User.findOne({email: args.userInput.email})
@@ -259,21 +259,5 @@ module.exports = {
         console.log('erreur 22: '+ err)
         throw err;
     });
-    },
-    deleteAnnonce: async args =>{
-        try{
-            const annonce = await Annonce.findById(args.annonceId).populate('creator');
-            if(!annonce){
-                throw new Error('Annonce existe pas !');
-            }
-            const creator = { 
-                ...annonce.creator._doc,
-                creator: user.bind(this, annonce.creator._doc.creator)
-             }
-            await Annonce.deleteOne({_id: args.annonceId});
-            return creator;
-        }catch (err){
-            throw err;
-        }
-    }    
+    }     
 }

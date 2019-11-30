@@ -144,9 +144,19 @@ module.exports = {
     });
     return annonce;
   },
-  updateAnnonce: async args => {
-      return await Annonce.findOneAndUpdate({_id: args.annonceId});
-      //*-------------
+  updateAnnonce: args => {
+      const foundAnnonce = Annonce.findOne({_id: args.annonceId});
+      if(!foundAnnonce){
+        throw new Error(`Couldn’t find annonce with id ${_id}`);
+      }
+      foundAnnonce.title = args.annonceInput.title;
+      foundAnnonce.typedebien = args.annonceInput.typedebien;
+      foundAnnonce.statusPub = args.annonceInput.statusPub;
+      foundAnnonce.prix = +args.annonceInput.prix;
+      foundAnnonce.date = new Date( args.annonceInput.date);
+      foundAnnonce.description = args.annonceInput.description;
+      foundAnnonce.save();
+      return foundAnnonce;
   },
   createUser: args => {
       return User.findOne({email: args.userInput.email})
@@ -259,21 +269,5 @@ module.exports = {
         console.log('erreur 22: '+ err)
         throw err;
     });
-    },
-    deleteAnnonce: async args =>{
-        try{
-            const annonce = await Annonce.findById(args.annonceId).populate('creator');
-            if(!annonce){
-                throw new Error('Annonce existe pas !');
-            }
-            const creator = { 
-                ...annonce.creator._doc,
-                creator: user.bind(this, annonce.creator._doc.creator)
-             }
-            await Annonce.deleteOne({_id: args.annonceId});
-            return creator;
-        }catch (err){
-            throw err;
-        }
-    }    
+    }     
 }

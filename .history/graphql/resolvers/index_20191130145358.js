@@ -262,16 +262,8 @@ module.exports = {
     },
     deleteAnnonce: async args =>{
         try{
-            const annonce = await Annonce.findById(args.annonceId).populate('creator');
-            if(!annonce){
-                throw new Error('Annonce existe pas !');
-            }
-            const creator = { 
-                ...annonce.creator._doc,
-                creator: user.bind(this, annonce.creator._doc.creator)
-             }
-            await Annonce.deleteOne({_id: args.annonceId});
-            return creator;
+            const annonce = await Annonce.findById(args.annonceId);
+
         }catch (err){
             throw err;
         }
