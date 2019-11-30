@@ -50,12 +50,12 @@ module.exports = buildSchema(`
             description: String!
         }
         input UpdateAnnonceInput {
-            title: String
-            typedebien: String
-            statusPub: String
-            prix: Float
-            date: String
-            description: String
+            title: String!
+            typedebien: String!
+            statusPub: String!
+            prix: Float!
+            date: String!
+            description: String!
         }
 
         input UserInput {

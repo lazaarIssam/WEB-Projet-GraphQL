@@ -150,11 +150,11 @@ module.exports = {
             throw new Error('aucune annonce trouvé');
         }
         annonce.title= args.annonceUpdateInput.title;
-        annonce.typedebien = args.annonceUpdateInput.typedebien;
-        annonce.statusPub = args.annonceUpdateInput.statusPub;
-        annonce.prix = +args.annonceUpdateInput.prix;
-        annonce.date = new Date( args.annonceUpdateInput.date);
-        annonce.description = args.annonceUpdateInput.description;
+        annonce.typedebien = args.annonceUpdateInput.typedebien,
+        annonce.statusPub = args.annonceUpdateInput.statusPub,
+        prix: +args.annonceInput.prix,
+        date: new Date( args.annonceInput.date),
+        description: args.annonceInput.description,
         return annonce.save().then(result =>{
             return { 
                 ...result._doc,

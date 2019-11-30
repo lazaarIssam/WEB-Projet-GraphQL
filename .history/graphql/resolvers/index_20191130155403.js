@@ -145,24 +145,38 @@ module.exports = {
     return annonce;
   },
   updateAnnonce:  (args) => {
-    return Annonce.findOne({_id:args.annonceId}).then(annonce =>{
-        if(!annonce){
-            throw new Error('aucune annonce trouvé');
+    const annonce = Annonce.findByIdAndUpdate({},{
+        title: args.annonceUpdateInput.title,
+        typedebien: args.annonceUpdateInput.typedebien,
+        statusPub: args.annonceUpdateInput.statusPub,
+        prix: +args.annonceUpdateInput.prix,
+        date: new Date( args.annonceUpdateInput.date),
+        description: args.annonceUpdateInput.description,
+    });
+    let createdAnnonce;
+    return annonce
+    .save()
+    .then(result =>{
+        createdAnnonce = { 
+            ...result._doc,
+            _id: result.id,
+            creator: user.bind(this, result._doc.creator)
+        };
+       return User.findById('5de165141f63b02e88596745')
+    }).then(user => {
+        if(!user){
+            throw new Error('User existe pas !');
         }
-        annonce.title= args.annonceUpdateInput.title;
-        annonce.typedebien = args.annonceUpdateInput.typedebien;
-        annonce.statusPub = args.annonceUpdateInput.statusPub;
-        annonce.prix = +args.annonceUpdateInput.prix;
-        annonce.date = new Date( args.annonceUpdateInput.date);
-        annonce.description = args.annonceUpdateInput.description;
-        return annonce.save().then(result =>{
-            return { 
-                ...result._doc,
-                _id: result.id,
-                creator: user.bind(this, result._doc.creator)
-            }
-        })
+        user.createdAnnonces.push(annonce);
+        return user.save();
+    }).then(result => {
+        return createdAnnonce;
     })
+    .catch(err => {
+        console.log('erreur: '+ err)
+        throw err;
+    });
+    return annonce;
   },
   createUser: args => {
       return User.findOne({email: args.userInput.email})

@@ -149,19 +149,10 @@ module.exports = {
         if(!annonce){
             throw new Error('aucune annonce trouvé');
         }
-        annonce.title= args.annonceUpdateInput.title;
-        annonce.typedebien = args.annonceUpdateInput.typedebien;
-        annonce.statusPub = args.annonceUpdateInput.statusPub;
-        annonce.prix = +args.annonceUpdateInput.prix;
-        annonce.date = new Date( args.annonceUpdateInput.date);
-        annonce.description = args.annonceUpdateInput.description;
-        return annonce.save().then(result =>{
-            return { 
-                ...result._doc,
-                _id: result.id,
-                creator: user.bind(this, result._doc.creator)
-            }
-        })
+        annonce.update({
+            title: args.annonceUpdateInput.title,
+        });
+        return annonce.update();
     })
   },
   createUser: args => {

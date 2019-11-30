@@ -144,25 +144,23 @@ module.exports = {
     });
     return annonce;
   },
-  updateAnnonce:  (args) => {
-    return Annonce.findOne({_id:args.annonceId}).then(annonce =>{
+  updateAnnonce: async args => {
+    try{
+        //--------------------------------------------------------------
+        const annonce = await Annonce.findById(args.annonceId).populate('creator');
         if(!annonce){
-            throw new Error('aucune annonce trouvé');
+            throw new Error('Annonce existe pas !');
         }
-        annonce.title= args.annonceUpdateInput.title;
-        annonce.typedebien = args.annonceUpdateInput.typedebien;
-        annonce.statusPub = args.annonceUpdateInput.statusPub;
-        annonce.prix = +args.annonceUpdateInput.prix;
-        annonce.date = new Date( args.annonceUpdateInput.date);
-        annonce.description = args.annonceUpdateInput.description;
-        return annonce.save().then(result =>{
-            return { 
-                ...result._doc,
-                _id: result.id,
-                creator: user.bind(this, result._doc.creator)
-            }
-        })
-    })
+        const creator = { 
+            ...annonce.creator._doc,
+            creator: user.bind(this, annonce.creator._doc.creator)
+         }
+        await Annonce.deleteOne({_id: args.annonceId});
+        return creator;
+        //--------------------------------------------------------------
+    }catch (err){
+        throw err;
+    }
   },
   createUser: args => {
       return User.findOne({email: args.userInput.email})

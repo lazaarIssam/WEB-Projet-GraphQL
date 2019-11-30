@@ -153,8 +153,8 @@ module.exports = {
         annonce.typedebien = args.annonceUpdateInput.typedebien;
         annonce.statusPub = args.annonceUpdateInput.statusPub;
         annonce.prix = +args.annonceUpdateInput.prix;
-        annonce.date = new Date( args.annonceUpdateInput.date);
-        annonce.description = args.annonceUpdateInput.description;
+        annonce.date = new Date( args.annonceInput.date);
+        annonce.description = args.annonceInput.description;
         return annonce.save().then(result =>{
             return { 
                 ...result._doc,
