@@ -38,7 +38,6 @@ module.exports = buildSchema(`
             description: String!
             creator: User!
             createdReponses: [Reponse!]
-            annonce: Annonce!
         }
 
         input AnnonceInput {
@@ -68,7 +67,7 @@ module.exports = buildSchema(`
         type RootMutation {
             createAnnonce(annonceInput: AnnonceInput): Annonce
             createUser(userInput: UserInput): User
-            createQuestion(annonceId: ID!,questionInput: QuestionInput): Question
+            createQuestion(questionInput: QuestionInput): Question
             createReponse(questionId: ID!,message: String!): Reponse
         }
         schema {

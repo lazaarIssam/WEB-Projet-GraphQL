@@ -19,7 +19,6 @@ module.exports = buildSchema(`
             date: String!
             description: String!
             creator: User!
-            createdQuestions: [Question!]
         }
 
         type User {
@@ -33,12 +32,12 @@ module.exports = buildSchema(`
 
         type Question {
             _id: ID!
+            annonce: Annonce!
             title: String!
             date: String!
             description: String!
             creator: User!
             createdReponses: [Reponse!]
-            annonce: Annonce!
         }
 
         input AnnonceInput {
@@ -56,6 +55,7 @@ module.exports = buildSchema(`
         }
 
         input QuestionInput {
+            annonce: Annonce!
             title: String!
             date: String!
             description: String!

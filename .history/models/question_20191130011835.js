@@ -19,16 +19,16 @@ const questionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
     createdReponses: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Reponse'
         }
-    ],
-    annonce: {
-        type: Schema.Types.ObjectId,
-        ref: 'Annonce'
-    }
+    ]
 });
 
 module.exports =mongoose.model('Question', questionSchema);
