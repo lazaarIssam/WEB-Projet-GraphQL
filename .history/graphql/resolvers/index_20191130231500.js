@@ -1,13 +1,12 @@
 const annonceResolver = require('./annonce');
 const authResolver = require('./auth');
 const questionResolver = require('./question');
-const reponseResolver = require('./reponse');
+const reponseResolver = require('./question');
 
 const rootResolver = {
-  ...annonceResolver,
   ...authResolver,
-  ...questionResolver,
-  ...reponseResolver
+  ...eventsResolver,
+  ...bookingResolver
 };
 
 module.exports = rootResolver;

@@ -31,12 +31,6 @@ module.exports = buildSchema(`
             createdReponses: [Reponse!]
         }
 
-        type AuthData {
-            userId: ID!
-            token: String!
-            tokenExpiration: Int!
-        }
-
         type Question {
             _id: ID!
             title: String!
@@ -78,7 +72,7 @@ module.exports = buildSchema(`
         type RootQuery {
             annonces: [Annonce!]!
             questions: [Question!]!
-            login(email: String!, password: String!): AuthData!
+            login(email: String!, password: String!)
         }
         type RootMutation {
             createAnnonce(annonceInput: AnnonceInput): Annonce

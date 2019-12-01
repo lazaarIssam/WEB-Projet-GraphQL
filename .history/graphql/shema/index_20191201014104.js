@@ -78,7 +78,7 @@ module.exports = buildSchema(`
         type RootQuery {
             annonces: [Annonce!]!
             questions: [Question!]!
-            login(email: String!, password: String!): AuthData!
+            login(email: String!, password: String!)
         }
         type RootMutation {
             createAnnonce(annonceInput: AnnonceInput): Annonce

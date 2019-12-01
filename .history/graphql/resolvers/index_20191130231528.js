@@ -5,9 +5,8 @@ const reponseResolver = require('./reponse');
 
 const rootResolver = {
   ...annonceResolver,
-  ...authResolver,
-  ...questionResolver,
-  ...reponseResolver
+  ...eventsResolver,
+  ...bookingResolver
 };
 
 module.exports = rootResolver;
