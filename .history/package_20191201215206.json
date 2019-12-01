@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon app.js",
-    // "db:setup": "ts-node ./src/test-utils/setup.ts",
-    // "test": "npm run db:setup && jest"
+    "db:setup": "ts-node ./src/test-utils/setup.js"
   },
   "author": "",
   "license": "ISC",
