@@ -26,6 +26,13 @@ module.exports = {
     if (!req.isAuth) {
         throw new Error('Unauthenticated!');
     }
+    User.findById(req.userId).then(user =>{
+        if(user.typeUser =='client'){
+            throw new Error ('erreur !' +user.typeUser)
+        }
+    }).catch(err =>{
+        throw new Error ('erreur !' +user.typeUser)
+    })
     const annonce = new Annonce({
         title: args.annonceInput.title,
         typedebien: args.annonceInput.typedebien,
@@ -57,7 +64,8 @@ module.exports = {
     .catch(err => {
         console.log('erreur: '+ err)
         throw err;
-    });
+});
+    //--------
   },
   updateAnnonce: (args,req) => {
     if (!req.isAuth) {

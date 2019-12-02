@@ -131,14 +131,14 @@ describe("Queries & Mutations", () => {
     test("Should be a valid login query", () => {
       const query = `
         query login($input: String!, $inputt: String!) {
-          login (email: $input,password: $inputt) {
-            token
+          login (questionId: $questionId,message: $input) {
+            message
           }
         }
       `;
       const input = {
-        input: "test@test.com",
-        inputt:"123"
+        questionId: "5de2ec907511092360dc83c0",
+        input: "test"
       }
       
       const { data: { login } } = tester.mock({ query: query, variables: input })

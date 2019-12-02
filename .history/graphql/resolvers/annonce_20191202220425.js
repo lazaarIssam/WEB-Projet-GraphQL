@@ -95,10 +95,10 @@ module.exports = {
             ...annonce.creator._doc,
             creator: user.bind(this, annonce.creator._doc.creator)
         }
-        // const userr = await User.updateOne( { _id: creator.id }, { $pull: { createdAnnonces: { $gte: annonce.id } } } );
-        // const xx = await userr.save();
+        const userr = await User.updateOne( { _id: creator.id }, { $pull: { createdAnnonces: { $gte: annonce.id } } } );
+        const xx = await userr.save();
         await Annonce.deleteOne({_id: args.annonceId});
-        return creator;
+        return xx;
     }catch (err){
         throw err;
     }

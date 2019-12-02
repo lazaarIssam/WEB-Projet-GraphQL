@@ -134,14 +134,14 @@ describe("Queries & Mutations", () => {
           login (email: $input,password: $inputt) {
             token
           }
-        }
+        
       `;
       const input = {
-        input: "test@test.com",
+        input:"test@test.com",
         inputt:"123"
+        }
       }
-      
-      const { data: { login } } = tester.mock({ query: query, variables: input })
+      const { data: { createReponse } } = tester.mock({ query: mutation, variables: input,inputt })
     });
     //------------------------------
     test("Should be a valid updateAnnonce mutation", () => {

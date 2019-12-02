@@ -95,8 +95,7 @@ module.exports = {
             ...annonce.creator._doc,
             creator: user.bind(this, annonce.creator._doc.creator)
         }
-        // const userr = await User.updateOne( { _id: creator.id }, { $pull: { createdAnnonces: { $gte: annonce.id } } } );
-        // const xx = await userr.save();
+        const updatedCreator = await creator.update( { _id: creator.id }, { $pull: { createdAnnonces: { $gte: annonce.id } } } );
         await Annonce.deleteOne({_id: args.annonceId});
         return creator;
     }catch (err){

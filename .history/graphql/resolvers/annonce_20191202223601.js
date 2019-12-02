@@ -5,7 +5,7 @@ const { user,questions } = require('./merge');
 const { dateToString } = require('../../helpers/date');
 
 module.exports = {
-    annonces: () => {
+    annonces: (req) => {
     return Annonce.find()
     .then(annonces =>{
         return annonces.map(res => {

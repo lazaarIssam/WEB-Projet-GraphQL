@@ -80,11 +80,12 @@ module.exports = buildSchema(`
 
         type RootQuery {
             annonces: [Annonce!]!
+            questions: [Question!]!
             login(email: String!, password: String!): AuthData!
         }
         type RootMutation {
             createAnnonce(annonceInput: AnnonceInput): Annonce
-            updateAnnonce(annonceId: ID!,annonceUpdateInput: AnnonceUpdateInput): Annonce
+            updateAnnonce(annonceId: ID!,annonceUpdateInput: UpdateAnnonceInput): Annonce
             deleteAnnonce(annonceId: ID!): User 
             createUser(userInput: UserInput): User
             createQuestion(annonceId: ID!,questionInput: QuestionInput): Question

@@ -26,6 +26,7 @@ module.exports = {
     if (!req.isAuth) {
         throw new Error('Unauthenticated!');
     }
+    console.log("type user and i " +req.userId+"  |   " +req.typeUser);
     const annonce = new Annonce({
         title: args.annonceInput.title,
         typedebien: args.annonceInput.typedebien,

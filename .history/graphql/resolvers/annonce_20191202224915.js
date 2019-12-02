@@ -26,6 +26,8 @@ module.exports = {
     if (!req.isAuth) {
         throw new Error('Unauthenticated!');
     }
+    User.find({_id:req.userId}).then(user => {}).then(user =>{
+        if()
     const annonce = new Annonce({
         title: args.annonceInput.title,
         typedebien: args.annonceInput.typedebien,
@@ -57,6 +59,8 @@ module.exports = {
     .catch(err => {
         console.log('erreur: '+ err)
         throw err;
+    });
+    //--------
     });
   },
   updateAnnonce: (args,req) => {

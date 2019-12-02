@@ -129,19 +129,19 @@ describe("Queries & Mutations", () => {
     });
     //------------- test login
     test("Should be a valid login query", () => {
-      const query = `
-        query login($input: String!, $inputt: String!) {
-          login (email: $input,password: $inputt) {
-            token
+      const mutation = `
+        mutation createReponse($questionId: ID!, $input: String!) {
+          createReponse (questionId: $questionId,message: $input) {
+            message
           }
         }
       `;
       const input = {
-        input: "test@test.com",
-        inputt:"123"
+        questionId: "5de2ec907511092360dc83c0",
+        input: "test"
       }
       
-      const { data: { login } } = tester.mock({ query: query, variables: input })
+      const { data: { createReponse } } = tester.mock({ query: mutation, variables: input })
     });
     //------------------------------
     test("Should be a valid updateAnnonce mutation", () => {

@@ -132,7 +132,7 @@ describe("Queries & Mutations", () => {
       const query = `
         query login($input: String!, $inputt: String!) {
           login (email: $input,password: $inputt) {
-            token
+            message
           }
         }
       `;

@@ -80,6 +80,7 @@ module.exports = buildSchema(`
 
         type RootQuery {
             annonces: [Annonce!]!
+            questions: [Question!]!
             login(email: String!, password: String!): AuthData!
         }
         type RootMutation {

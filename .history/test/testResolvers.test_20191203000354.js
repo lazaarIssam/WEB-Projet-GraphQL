@@ -134,13 +134,13 @@ describe("Queries & Mutations", () => {
           login (email: $input,password: $inputt) {
             token
           }
-        }
+        
       `;
       const input = {
-        input: "test@test.com",
+        input:"test@test.com",
         inputt:"123"
+        }
       }
-      
       const { data: { login } } = tester.mock({ query: query, variables: input })
     });
     //------------------------------

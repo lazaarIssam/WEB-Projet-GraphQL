@@ -58,6 +58,7 @@ module.exports = {
         console.log('erreur: '+ err)
         throw err;
     });
+  }
   },
   updateAnnonce: (args,req) => {
     if (!req.isAuth) {

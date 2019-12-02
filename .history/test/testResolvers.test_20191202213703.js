@@ -49,7 +49,6 @@ describe("Queries & Mutations", () => {
       // Second arg: query to test
       tester.test(true, query);
     });
-    //----------------------------------------
     //------------- test create user
     test("Should be a valid createUser mutation", () => {
       const mutation = `
@@ -111,75 +110,28 @@ describe("Queries & Mutations", () => {
       
       const { data: { createQuestion } } = tester.mock({ query: mutation, variables: input })
     });
-    //----------------------------
+
+
     test("Should be a valid createReponse mutation", () => {
       const mutation = `
-        mutation createReponse($questionId: ID!, $input: String!) {
-          createReponse (questionId: $questionId,message: $input) {
-            message
-          }
-        }
-      `;
-      const input = {
-        questionId: "5de2ec907511092360dc83c0",
-        input: "test"
-      }
-      
-      const { data: { createReponse } } = tester.mock({ query: mutation, variables: input })
-    });
-    //------------- test login
-    test("Should be a valid login query", () => {
-      const query = `
-        query login($input: String!, $inputt: String!) {
-          login (email: $input,password: $inputt) {
-            token
-          }
-        }
-      `;
-      const input = {
-        input: "test@test.com",
-        inputt:"123"
-      }
-      
-      const { data: { login } } = tester.mock({ query: query, variables: input })
-    });
-    //------------------------------
-    test("Should be a valid updateAnnonce mutation", () => {
-      const mutation = `
-        mutation updateAnnonce($annonceId: ID!, $input: AnnonceUpdateInput!) {
-          updateAnnonce (annonceId: $annonceId,annonceUpdateInput: $input) {
+        mutation createReponse ($annonceId: ID!, $input: QuestionInput!) {
+          createReponse {
             title
           }
         }
       `;
-      const input = {
-        annonceId: "5de1bc3084f6911ed8e27711",
-        input: {
-          title: "test",
-          typedebien: "test",
-          statusPub: "statusTest",
-          prix: 20.00,
-          date: "2019-11-22T11:14:46.131Z",
-          description: "Test",
-        }
-      }
-      
-      const { data: { updateAnnonce } } = tester.mock({ query: mutation, variables: input })
-    });
-    //--------------------------------------
-    test("Should be a valid deleteAnnonce mutation", () => {
-      const mutation = `
-        mutation deleteAnnonce($annonceId: ID!) {
-          deleteAnnonce (annonceId: $annonceId) {
-            email
-          }
-        }
-      `;
-      const input = {
-        annonceId: "5de2ec907511092360dc83c0"
-      }
-      
-      const { data: { createReponse } } = tester.mock({ query: mutation, variables: input })
+      // First arg: true, the mutation is valid
+      // Second arg: mutation to test
+      // Third argument: Input value
+      tester.test(true, mutation, [{
+        title: "test",
+        typedebien: "test",
+        statusPub: "statusTest",
+        prix: 20.00,
+        date: "2019-11-22T11:14:46.131Z",
+        description: "Test",
+        creator: "5de165141f63b02e88596745"
+      }]);
     });
     
   });

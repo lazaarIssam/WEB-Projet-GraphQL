@@ -26,38 +26,42 @@ module.exports = {
     if (!req.isAuth) {
         throw new Error('Unauthenticated!');
     }
-    const annonce = new Annonce({
-        title: args.annonceInput.title,
-        typedebien: args.annonceInput.typedebien,
-        statusPub: args.annonceInput.statusPub,
-        prix: +args.annonceInput.prix,
-        date: new Date( args.annonceInput.date),
-        description: args.annonceInput.description,
-        creator: req.userId
-    });
-    let createdAnnonce;
-    return annonce
-    .save()
-    .then(result =>{
-        createdAnnonce = { 
-            ...result._doc,
-            _id: result.id,
-            creator: user.bind(this, result._doc.creator)
-        };
-       return User.findById(req.userId)
-    }).then(user => {
-        if(!user){
-            throw new Error('User existe pas !');
-        }
-        user.createdAnnonces.push(annonce);
-        return user.save();
-    }).then(result => {
-        return createdAnnonce;
-    })
-    .catch(err => {
-        console.log('erreur: '+ err)
-        throw err;
-    });
+    User.findById(req.userId).then(user =>{
+        if(user.typeUser =='agent'){
+            const annonce = new Annonce({
+            title: args.annonceInput.title,
+            typedebien: args.annonceInput.typedebien,
+            statusPub: args.annonceInput.statusPub,
+            prix: +args.annonceInput.prix,
+            date: new Date( args.annonceInput.date),
+            description: args.annonceInput.description,
+            creator: req.userId
+        });
+        let createdAnnonce;
+        return annonce
+        .save()
+        .then(result =>{
+            createdAnnonce = { 
+                ...result._doc,
+                _id: result.id,
+                creator: user.bind(this, result._doc.creator)
+            };
+            return User.findById(req.userId)
+        }).then(user => {
+            if(!user){
+                throw new Error('User existe pas !');
+            }
+            user.createdAnnonces.push(annonce);
+            return user.save();
+        }).then(result => {
+            return createdAnnonce;
+        }).catch(err => {
+            console.log('erreur: '+ err)
+            throw err;
+        });
+    }
+})
+    //--------
   },
   updateAnnonce: (args,req) => {
     if (!req.isAuth) {
