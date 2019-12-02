@@ -22,46 +22,43 @@ module.exports = {
         throw err;
     });
   },
-  createAnnonce: async (args,req) => {
-      if (!req.isAuth) {
-          throw new Error('Unauthenticated!');
-      }
-      const us = await User.findOne({_id:req.userId});
-      if(us.typeUser !='agent'){
-          throw new Error('Action impossible');
-      }
-      const annonce = new Annonce({
-          title: args.annonceInput.title,
-          typedebien: args.annonceInput.typedebien,
-          statusPub: args.annonceInput.statusPub,
-          prix: +args.annonceInput.prix,
-          date: new Date( args.annonceInput.date),
-          description: args.annonceInput.description,
-          creator: req.userId
-        });
-        let createdAnnonce;
-        try {
-          const result = await annonce.save();
-          createdAnnonce = createdAnnonce = { 
-              ...result._doc,
-              _id: result.id,
-              creator: user.bind(this, result._doc.creator)
-          };
-          const creator = await User.findById(req.userId);
-    
-          if (!creator) {
-            throw new Error('User existe pas.');
-          }
-          creator.createdAnnonces.push(annonce);
-          await creator.save();
-    
-          return createdAnnonce;
-        } catch (err) {
-          console.log(err);
-          throw err;
-        }
-          
-  },   
+//   createAnnonce: (args,req) => {
+//     if (!req.isAuth) {
+//         throw new Error('Unauthenticated!');
+//     }
+//     const annonce = new Annonce({
+//         title: args.annonceInput.title,
+//         typedebien: args.annonceInput.typedebien,
+//         statusPub: args.annonceInput.statusPub,
+//         prix: +args.annonceInput.prix,
+//         date: new Date( args.annonceInput.date),
+//         description: args.annonceInput.description,
+//         creator: req.userId
+//     });
+//     let createdAnnonce;
+//     return annonce
+//     .save()
+//     .then(result =>{
+//         createdAnnonce = { 
+//             ...result._doc,
+//             _id: result.id,
+//             creator: user.bind(this, result._doc.creator)
+//         };
+//        return User.findById(req.userId)
+//     }).then(user => {
+//         if(!user){
+//             throw new Error('User existe pas !');
+//         }
+//         user.createdAnnonces.push(annonce);
+//         return user.save();
+//     }).then(result => {
+//         return createdAnnonce;
+//     })
+//     .catch(err => {
+//         console.log('erreur: '+ err)
+//         throw err;
+//     });
+//   },
   updateAnnonce: (args,req) => {
     if (!req.isAuth) {
         throw new Error('Unauthenticated!');
@@ -86,9 +83,9 @@ module.exports = {
     })
   },
   deleteAnnonce: async (args,req) =>{
-    if (!req.isAuth) {
-        throw new Error('Unauthenticated!');
-    }
+    // if (!req.isAuth) {
+    //     throw new Error('Unauthenticated!');
+    // }
     try{
         const annonce = await Annonce.findById(args.annonceId).populate('creator');
         if(!annonce){
@@ -98,10 +95,22 @@ module.exports = {
             ...annonce.creator._doc,
             creator: user.bind(this, annonce.creator._doc.creator)
         }
+        // const userr = await User.updateOne( { _id: creator.id }, { $pull: { createdAnnonces: { $gte: annonce.id } } } );
+        // const xx = await userr.save();
         await Annonce.deleteOne({_id: args.annonceId});
         return creator;
     }catch (err){
         throw err;
     }
-    }
+    },
+    createAnnonce: async (args,req) => {
+        if (!req.isAuth) {
+            throw new Error('Unauthenticated!');
+        }
+        const us = await User.findOne({_id:req.userId});
+        if(us.typeUser !='agent'){
+            throw new Error('Action impossible');
+        }
+            
+    }   
 }

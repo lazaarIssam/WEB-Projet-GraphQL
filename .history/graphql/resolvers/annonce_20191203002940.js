@@ -50,7 +50,7 @@ module.exports = {
           const creator = await User.findById(req.userId);
     
           if (!creator) {
-            throw new Error('User existe pas.');
+            throw new Error('User not found.');
           }
           creator.createdAnnonces.push(annonce);
           await creator.save();
@@ -86,9 +86,9 @@ module.exports = {
     })
   },
   deleteAnnonce: async (args,req) =>{
-    if (!req.isAuth) {
-        throw new Error('Unauthenticated!');
-    }
+    // if (!req.isAuth) {
+    //     throw new Error('Unauthenticated!');
+    // }
     try{
         const annonce = await Annonce.findById(args.annonceId).populate('creator');
         if(!annonce){
@@ -98,6 +98,8 @@ module.exports = {
             ...annonce.creator._doc,
             creator: user.bind(this, annonce.creator._doc.creator)
         }
+        // const userr = await User.updateOne( { _id: creator.id }, { $pull: { createdAnnonces: { $gte: annonce.id } } } );
+        // const xx = await userr.save();
         await Annonce.deleteOne({_id: args.annonceId});
         return creator;
     }catch (err){
