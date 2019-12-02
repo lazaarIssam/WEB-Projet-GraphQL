@@ -95,9 +95,14 @@ module.exports = {
             ...annonce.creator._doc,
             creator: user.bind(this, annonce.creator._doc.creator)
         }
-        // const oldCreatedAnnonce =creator.createdQuestionsappapp.use(bodyParser.json());
-
-        console.log("createdQuestions : " +oldCreatedAnnonce);
+        const user = await User.findOne({_id:creator.id});
+        const oldcreatedannonce =
+        // .then(user =>{
+        //     user.createdAnnonces.find(annonce.id).then(res =>{
+        //         res ="";
+        //     })
+        // })
+        //creator.findOne({_id:"iduser"})
         await Annonce.deleteOne({_id: args.annonceId});
         return creator;
     }catch (err){

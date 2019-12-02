@@ -1,13 +1,12 @@
-const EasyGraphQLTester = require('easygraphql-tester')
-const fs = require('fs')
-const path = require('path')
+const EasyGraphQLTester = require('easygraphql-tester');
+const resolvers = require('../graphql/resolvers/annonce');
 
-const schemaCode = fs.readFileSync(path.join(__dirname, 'schema', 'schema.gql'), 'utf8')
-const tester = new EasyGraphQLTester(schemaCode)
+const schemaCode = require('../graphql/shema/index');
+const tester = new EasyGraphQLTester(schemaCode,resolvers);
 
 const query = `
   {
-    annonces{
+    annonce{
         title
         creator{
           email

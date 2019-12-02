@@ -83,21 +83,23 @@ module.exports = {
     })
   },
   deleteAnnonce: async (args,req) =>{
-    // if (!req.isAuth) {
-    //     throw new Error('Unauthenticated!');
-    // }
+    if (!req.isAuth) {
+        throw new Error('Unauthenticated!');
+    }
     try{
         const annonce = await Annonce.findById(args.annonceId).populate('creator');
         if(!annonce){
             throw new Error('Annonce existe pas !');
         }
+        await creator.find({createdAnnonces:annonce.id}).then(field =>{
+            if(filed.createdQuestions== annonce.id){
+                filed.createdQuestions == "";
+            }
+        })
         const creator = { 
             ...annonce.creator._doc,
             creator: user.bind(this, annonce.creator._doc.creator)
         }
-        // const oldCreatedAnnonce =creator.createdQuestionsappapp.use(bodyParser.json());
-
-        console.log("createdQuestions : " +oldCreatedAnnonce);
         await Annonce.deleteOne({_id: args.annonceId});
         return creator;
     }catch (err){

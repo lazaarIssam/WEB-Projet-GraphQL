@@ -95,7 +95,7 @@ module.exports = {
             ...annonce.creator._doc,
             creator: user.bind(this, annonce.creator._doc.creator)
         }
-        // const oldCreatedAnnonce =creator.createdQuestionsappapp.use(bodyParser.json());
+        const oldCreatedAnnonce =[creator.createdQuestionsapp];
 
         console.log("createdQuestions : " +oldCreatedAnnonce);
         await Annonce.deleteOne({_id: args.annonceId});
